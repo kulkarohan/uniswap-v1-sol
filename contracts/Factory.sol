@@ -7,7 +7,7 @@ import './Exchange.sol';
 import './InitializedProxy.sol';
 
 contract Factory {
-    /// ============ Exchange Information ============
+    /// ============ Storage ============
 
     address public constant ZERO_ADDRESS = 0x0000000000000000000000000000000000000000;
     address public exchangeTemplate;
@@ -21,7 +21,7 @@ contract Factory {
 
     event NewExchange(address indexed token, address indexed exchange);
 
-    /// ============ View Functions ============
+    /// ============ View Methods ============
 
     function getExchange(address _token) external view returns (address) {
         return tokenToExchange[_token];
@@ -35,17 +35,21 @@ contract Factory {
         return idToToken[_tokenId];
     }
 
-    /// ============ Factory Functions ============
+    /// ============ Factory Methods ============
 
-    function initializeFactory(address _template) external {
-        require(exchangeTemplate == ZERO_ADDRESS);
-        require(_template != ZERO_ADDRESS);
-        exchangeTemplate = _template;
+    // function initializeFactory(address _template) external {
+    //     require(exchangeTemplate == ZERO_ADDRESS);
+    //     require(_template != ZERO_ADDRESS);
+    //     exchangeTemplate = _template;
+    // }
+
+    constructor() {
+        exchangeTemplate = address(new Exchange());
     }
 
     function createExchange(address _token) external returns (address) {
         require(_token != ZERO_ADDRESS);
-        require(exchangeTemplate != ZERO_ADDRESS);
+        // require(exchangeTemplate != ZERO_ADDRESS);
         require(tokenToExchange[_token] == ZERO_ADDRESS);
 
         bytes memory _initializationCalldata = abi.encodeWithSignature(
