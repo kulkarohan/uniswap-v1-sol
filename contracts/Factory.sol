@@ -35,21 +35,16 @@ contract Factory {
         return idToToken[_tokenId];
     }
 
-    /// ============ Factory Methods ============
-
-    // function initializeFactory(address _template) external {
-    //     require(exchangeTemplate == ZERO_ADDRESS);
-    //     require(_template != ZERO_ADDRESS);
-    //     exchangeTemplate = _template;
-    // }
+    /// ============ Constructor ============
 
     constructor() {
         exchangeTemplate = address(new Exchange());
     }
 
+    /// ============ Factory Methods ============
+
     function createExchange(address _token) external returns (address) {
         require(_token != ZERO_ADDRESS);
-        // require(exchangeTemplate != ZERO_ADDRESS);
         require(tokenToExchange[_token] == ZERO_ADDRESS);
 
         bytes memory _initializationCalldata = abi.encodeWithSignature(

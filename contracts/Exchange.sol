@@ -807,9 +807,9 @@ contract Exchange {
             'ERROR: FAILED TOKEN TRANSFER'
         );
 
-        // uint256 ethSold = IExchange(_exchange).ethToTokenTransferOutput{
-        //     value: ethBought
-        // }(_tokensBought, _deadline, _recipient);
+        uint256 ethSold = IExchange(_exchange).ethToTokenTransferOutput{
+            value: ethBought
+        }(_tokensBought, _deadline, _recipient);
 
         emit EthPurchase(_buyer, tokensSold, ethBought);
 
